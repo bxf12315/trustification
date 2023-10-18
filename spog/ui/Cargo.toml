@@ -84,6 +84,7 @@ members = [
     "crates/components",
     "crates/navigation",
     "crates/utils",
+    "mock-server",
 ]
 
 [patch.crates-io]

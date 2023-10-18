@@ -1,0 +1,451 @@
+{
+  "global": {
+    "documentationUrl": "https://github.com/trustification/trustification",
+    "supportUrl": "https://github.com/trustification/trustification/issues",
+    "supportCaseUrl": "https://github.com/trustification/trustification/issues",
+    "brandImageSrc": null,
+    "aboutBackgroundSrc": null,
+    "productName": null
+  },
+  "landingPage": {
+    "headerContent": "<section\n  class=\"pf-v5-c-page__main-section pf-m-light pf-m-shadow-bottom\"\n>\n  <div class=\"pf-v5-l-grid pf-m-gutter\">\n    <div class=\"pf-v5-l-grid__item pf-m-8-col\">\n      <div class=\"pf-v5-c-content\">\n        <h1 class=\"pf-v5-c-title pf-m-2xl\">Trusted Content</h1>\n        <p class=\"pf-v5-u-color-200\">A service for software supply chain security</p>\n      </div>\n    </div>\n  </div>\n</section>\n",
+    "beforeOuterContent": "",
+    "beforeInnerContent": "",
+    "afterInnerContent": "Search me\n",
+    "afterOuterContent": "<div class=\"pf-v5-l-grid__item pf-m-6-col\">\n  <div class=\"pf-v5-c-card pf-m-full-height\">\n    <div class=\"pf-v5-c-card__title\">\n      <h2 class=\"pf-v5-c-card__title-text\">Scan your SBOM</h2>\n    </div>\n    <div class=\"pf-v5-c-card__body\">\n      Load a custom SBOM and have its dependencies analyzed. The system doesn't store your SBOM.\n    </div>\n    <div class=\"pf-v5-c-card__body\">\n      <div class=\"pf-v5-l-bullseye\">\n        <div class=\"pf-v5-l-bullseye__item\">\n          <a\n            class=\"pf-v5-c-button pf-m-primary pf-m-display-lg\"\n            type=\"button\"\n            href=\"/scanner\"\n          >Scan SBOM</a>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n\n<div class=\"pf-v5-l-grid__item pf-m-6-col\">\n  <div class=\"pf-v5-c-card pf-m-full-height\">\n    <div class=\"pf-v5-c-card__title\">\n      <h2 class=\"pf-v5-c-card__title-text\">Learn more</h2>\n    </div>\n    <div class=\"pf-v5-c-card__body\">This content can be customized through configuration.</div>\n  </div>\n</div>\n",
+    "footerContent": ""
+  },
+  "bombastic": {
+    "filters": {
+      "categories": [
+        {
+          "label": "Products",
+          "options": [
+            {
+              "type": "check",
+              "id": "ubi7",
+              "label": "UBI 7",
+              "terms": [
+                "\"pkg:oci/ubi7\""
+              ]
+            },
+            {
+              "type": "check",
+              "id": "ubi8",
+              "label": "UBI 8",
+              "terms": [
+                "\"pkg:oci/ubi8\""
+              ]
+            },
+            {
+              "type": "check",
+              "id": "ubi9",
+              "label": "UBI 9",
+              "terms": [
+                "\"pkg:oci/ubi9\""
+              ]
+            },
+            {
+              "type": "divider"
+            },
+            {
+              "type": "check",
+              "id": "rhel7",
+              "label": "Red Hat Enterprise Linux 7",
+              "terms": [
+                "\"cpe:/o:redhat:enterprise_linux:7\"",
+                "\"cpe:/o:redhat:rhel_aus:7\""
+              ]
+            },
+            {
+              "type": "check",
+              "id": "rhel8",
+              "label": "Red Hat Enterprise Linux 8",
+              "terms": [
+                "\"cpe:/o:redhat:enterprise_linux:8\"",
+                "\"cpe:/o:redhat:rhel_e4s:8.1\""
+              ]
+            },
+            {
+              "type": "check",
+              "id": "rhel9",
+              "label": "Red Hat Enterprise Linux 9",
+              "terms": [
+                "\"cpe:/o:redhat:enterprise_linux:9\""
+              ]
+            },
+            {
+              "type": "divider"
+            },
+            {
+              "type": "check",
+              "id": "ansible",
+              "label": "Ansible",
+              "terms": [
+                "\"cpe:/a:redhat:ansible_automation_platform\""
+              ]
+            },
+            {
+              "type": "check",
+              "id": "amq",
+              "label": "AMQ",
+              "terms": [
+                "\"cpe:/a:redhat:amq\" OR \"amq-\""
+              ]
+            },
+            {
+              "type": "check",
+              "id": "quarkus",
+              "label": "Quarkus",
+              "terms": [
+                "\"quarkus\""
+              ]
+            }
+          ]
+        },
+        {
+          "label": "Type",
+          "options": [
+            {
+              "type": "check",
+              "id": "is_container",
+              "label": "Container",
+              "terms": [
+                "type:oci"
+              ]
+            },
+            {
+              "type": "check",
+              "id": "is_product",
+              "label": "Product",
+              "terms": [
+                "NOT type:oci"
+              ]
+            }
+          ]
+        },
+        {
+          "label": "Suppliers",
+          "options": [
+            {
+              "type": "check",
+              "id": "supplier_redhat",
+              "label": "Red Hat",
+              "terms": [
+                "supplier:\"Organization: Red Hat\""
+              ]
+            }
+          ]
+        },
+        {
+          "label": "Created on",
+          "options": [
+            {
+              "type": "select",
+              "group": "created-on",
+              "default": "any",
+              "options": [
+                {
+                  "id": "last-week",
+                  "label": "Last 7 days",
+                  "script": "const end = new Date();\nconst start = new Date(end.getTime() - (7 * 24 * 60 * 60 * 1000));\n[\n  \"created:\" + \n  start.toLocaleString(\"default\", { year: \"numeric\" }) + \"-\" +\n  start.toLocaleString(\"default\", { month: \"2-digit\" }) + \"-\" +\n  start.toLocaleString(\"default\", { day: \"2-digit\" }) + \"..\" +\n  end.toLocaleString(\"default\", { year: \"numeric\" }) + \"-\" +\n  end.toLocaleString(\"default\", { month: \"2-digit\" }) + \"-\" +\n  end.toLocaleString(\"default\", { day: \"2-digit\" })\n];\n"
+                },
+                {
+                  "id": "last-month",
+                  "label": "Last 30 days",
+                  "script": "const end = new Date();\nconst start = new Date(end.getTime() - (30 * 24 * 60 * 60 * 1000));\n[\n  \"created:\" + \n  start.toLocaleString(\"default\", { year: \"numeric\" }) + \"-\" +\n  start.toLocaleString(\"default\", { month: \"2-digit\" }) + \"-\" +\n  start.toLocaleString(\"default\", { day: \"2-digit\" }) + \"..\" +\n  end.toLocaleString(\"default\", { year: \"numeric\" }) + \"-\" +\n  end.toLocaleString(\"default\", { month: \"2-digit\" }) + \"-\" +\n  end.toLocaleString(\"default\", { day: \"2-digit\" })\n];\n"
+                },
+                {
+                  "id": "this-year",
+                  "label": "This year",
+                  "script": "const date = new Date();\nconst start = new Date(date.getFullYear(), 0, 1);\nconst end = new Date(date.getFullYear()+1, 0, 1);\n[\n  \"created:\" + \n  start.toLocaleString(\"default\", { year: \"numeric\" }) + \"-\" +\n  start.toLocaleString(\"default\", { month: \"2-digit\" }) + \"-\" +\n  start.toLocaleString(\"default\", { day: \"2-digit\" }) + \"..\" +\n  end.toLocaleString(\"default\", { year: \"numeric\" }) + \"-\" +\n  end.toLocaleString(\"default\", { month: \"2-digit\" }) + \"-\" +\n  end.toLocaleString(\"default\", { day: \"2-digit\" })\n];\n"
+                },
+                {
+                  "id": "2022",
+                  "label": "2022",
+                  "terms": [
+                    "created:2022-01-01..2023-01-01"
+                  ]
+                },
+                {
+                  "id": "2021",
+                  "label": "2021",
+                  "terms": [
+                    "created:2021-01-01..2022-01-01"
+                  ]
+                },
+                {
+                  "id": "any",
+                  "label": "Any time"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "vexination": {
+    "filters": {
+      "categories": [
+        {
+          "label": "Severity",
+          "options": [
+            {
+              "type": "check",
+              "id": "low",
+              "label": "<span class=\"tc-c-severity\">\n    <span class=\"tc-c-severity__icon\"> <span class=\"tc-m-severity-low\"> <i class=\"fa fa-shield-halved\"></i> </span></span>\n    <span class=\"tc-c-severity__text\"> Low </span>\n</span>\n",
+              "terms": [
+                "severity:Low"
+              ]
+            },
+            {
+              "type": "check",
+              "id": "moderate",
+              "label": "<span class=\"tc-c-severity\">\n    <span class=\"tc-c-severity__icon\"> <span class=\"tc-m-severity-moderate\"> <i class=\"fa fa-shield-halved\"></i> </span></span>\n    <span class=\"tc-c-severity__text\"> Moderate </span>\n</span>\n",
+              "terms": [
+                "severity:Moderate"
+              ]
+            },
+            {
+              "type": "check",
+              "id": "important",
+              "label": "<span class=\"tc-c-severity\">\n    <span class=\"tc-c-severity__icon\"> <span class=\"tc-m-severity-important\"> <i class=\"fa fa-shield-halved\"></i> </span></span>\n    <span class=\"tc-c-severity__text\"> Important </span>\n</span>\n",
+              "terms": [
+                "severity:Important"
+              ]
+            },
+            {
+              "type": "check",
+              "id": "critical",
+              "label": "<span class=\"tc-c-severity\">\n    <span class=\"tc-c-severity__icon\"> <span class=\"tc-m-severity-critical\"> <i class=\"fa fa-shield-halved\"></i> </span></span>\n    <span class=\"tc-c-severity__text\"> Critical </span>\n</span>\n",
+              "terms": [
+                "severity:Critical"
+              ]
+            }
+          ]
+        },
+        {
+          "label": "Products",
+          "options": [
+            {
+              "type": "check",
+              "id": "rhel7",
+              "label": "Red Hat Enterprise Linux 7",
+              "terms": [
+                "( \"cpe:/o:redhat:rhel_eus:7\" in:package )"
+              ]
+            },
+            {
+              "type": "check",
+              "id": "rhel8",
+              "label": "Red Hat Enterprise Linux 8",
+              "terms": [
+                "( \"cpe:/o:redhat:rhel_eus:8\" in:package )"
+              ]
+            },
+            {
+              "type": "check",
+              "id": "rhel9",
+              "label": "Red Hat Enterprise Linux 9",
+              "terms": [
+                "( \"cpe:/a:redhat:enterprise_linux:9\" in:package )"
+              ]
+            },
+            {
+              "type": "divider"
+            },
+            {
+              "type": "check",
+              "id": "ocp3",
+              "label": "OpenShift Container Platform 3",
+              "terms": [
+                "( \"cpe:/a:redhat:openshift:3\" in:package )"
+              ]
+            },
+            {
+              "type": "check",
+              "id": "ocp4",
+              "label": "OpenShift Container Platform 4",
+              "terms": [
+                "( \"cpe:/a:redhat:openshift:4\" in:package )"
+              ]
+            }
+          ]
+        },
+        {
+          "label": "Revisions",
+          "options": [
+            {
+              "type": "select",
+              "group": "release",
+              "default": "any",
+              "options": [
+                {
+                  "id": "last-week",
+                  "label": "Last 7 days",
+                  "script": "const end = new Date();\nconst start = new Date(end.getTime() - (7 * 24 * 60 * 60 * 1000));\n[\n  \"release:\" +\n  start.toLocaleString(\"default\", { year: \"numeric\" }) + \"-\" +\n  start.toLocaleString(\"default\", { month: \"2-digit\" }) + \"-\" +\n  start.toLocaleString(\"default\", { day: \"2-digit\" }) + \"..\" +\n  end.toLocaleString(\"default\", { year: \"numeric\" }) + \"-\" +\n  end.toLocaleString(\"default\", { month: \"2-digit\" }) + \"-\" +\n  end.toLocaleString(\"default\", { day: \"2-digit\" })\n];\n"
+                },
+                {
+                  "id": "last-month",
+                  "label": "Last 30 days",
+                  "script": "const end = new Date();\nconst start = new Date(end.getTime() - (30 * 24 * 60 * 60 * 1000));\n[\n  \"release:\" +\n  start.toLocaleString(\"default\", { year: \"numeric\" }) + \"-\" +\n  start.toLocaleString(\"default\", { month: \"2-digit\" }) + \"-\" +\n  start.toLocaleString(\"default\", { day: \"2-digit\" }) + \"..\" +\n  end.toLocaleString(\"default\", { year: \"numeric\" }) + \"-\" +\n  end.toLocaleString(\"default\", { month: \"2-digit\" }) + \"-\" +\n  end.toLocaleString(\"default\", { day: \"2-digit\" })\n];\n"
+                },
+                {
+                  "id": "this-year",
+                  "label": "This year",
+                  "script": "const date = new Date();\nconst start = new Date(date.getFullYear(), 0, 1);\nconst end = new Date(date.getFullYear()+1, 0, 1);\n[\n  \"release:\" +\n  start.toLocaleString(\"default\", { year: \"numeric\" }) + \"-\" +\n  start.toLocaleString(\"default\", { month: \"2-digit\" }) + \"-\" +\n  start.toLocaleString(\"default\", { day: \"2-digit\" }) + \"..\" +\n  end.toLocaleString(\"default\", { year: \"numeric\" }) + \"-\" +\n  end.toLocaleString(\"default\", { month: \"2-digit\" }) + \"-\" +\n  end.toLocaleString(\"default\", { day: \"2-digit\" })\n];\n"
+                },
+                {
+                  "id": "2022",
+                  "label": "2022",
+                  "terms": [
+                    "release:2022-01-01..2023-01-01"
+                  ]
+                },
+                {
+                  "id": "2021",
+                  "label": "2021",
+                  "terms": [
+                    "release:2021-01-01..2022-01-01"
+                  ]
+                },
+                {
+                  "id": "any",
+                  "label": "Any time"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "cve": {
+    "filters": {
+      "categories": [
+        {
+          "label": "State",
+          "options": [
+            {
+              "type": "select",
+              "group": "state",
+              "default": "published",
+              "options": [
+                {
+                  "id": "any",
+                  "label": "Any"
+                },
+                {
+                  "id": "published",
+                  "label": "Published",
+                  "terms": [
+                    "is:published"
+                  ]
+                },
+                {
+                  "id": "rejected",
+                  "label": "Rejected",
+                  "terms": [
+                    "is:rejected"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "CVSS",
+          "options": [
+            {
+              "type": "check",
+              "id": "low",
+              "label": "<span class=\"tc-c-severity\">\n    <span class=\"tc-c-severity__icon\"> <span class=\"tc-m-severity-low\"> <i class=\"fa fa-shield-halved\"></i> </span></span>\n    <span class=\"tc-c-severity__text\"> Low </span>\n</span>\n",
+              "terms": [
+                "severity:low"
+              ]
+            },
+            {
+              "type": "check",
+              "id": "moderate",
+              "label": "<span class=\"tc-c-severity\">\n    <span class=\"tc-c-severity__icon\"> <span class=\"tc-m-severity-moderate\"> <i class=\"fa fa-shield-halved\"></i> </span></span>\n    <span class=\"tc-c-severity__text\"> Medium </span>\n</span>\n",
+              "terms": [
+                "severity:medium"
+              ]
+            },
+            {
+              "type": "check",
+              "id": "important",
+              "label": "<span class=\"tc-c-severity\">\n    <span class=\"tc-c-severity__icon\"> <span class=\"tc-m-severity-important\"> <i class=\"fa fa-shield-halved\"></i> </span></span>\n    <span class=\"tc-c-severity__text\"> High </span>\n</span>\n",
+              "terms": [
+                "severity:high"
+              ]
+            },
+            {
+              "type": "check",
+              "id": "critical",
+              "label": "<span class=\"tc-c-severity\">\n    <span class=\"tc-c-severity__icon\"> <span class=\"tc-m-severity-critical\"> <i class=\"fa fa-shield-halved\"></i> </span></span>\n    <span class=\"tc-c-severity__text\"> Critical </span>\n</span>\n",
+              "terms": [
+                "severity:critical"
+              ]
+            }
+          ]
+        },
+        {
+          "label": "Published",
+          "options": [
+            {
+              "type": "select",
+              "group": "date-published",
+              "default": "any",
+              "options": [
+                {
+                  "id": "last-week",
+                  "label": "Last 7 days",
+                  "script": "const end = new Date();\nconst start = new Date(end.getTime() - (7 * 24 * 60 * 60 * 1000));\n[\n  \"datePublished:\" +\n  start.toLocaleString(\"default\", { year: \"numeric\" }) + \"-\" +\n  start.toLocaleString(\"default\", { month: \"2-digit\" }) + \"-\" +\n  start.toLocaleString(\"default\", { day: \"2-digit\" }) + \"..\" +\n  end.toLocaleString(\"default\", { year: \"numeric\" }) + \"-\" +\n  end.toLocaleString(\"default\", { month: \"2-digit\" }) + \"-\" +\n  end.toLocaleString(\"default\", { day: \"2-digit\" })\n];\n"
+                },
+                {
+                  "id": "last-month",
+                  "label": "Last 30 days",
+                  "script": "const end = new Date();\nconst start = new Date(end.getTime() - (30 * 24 * 60 * 60 * 1000));\n[\n  \"datePublished:\" +\n  start.toLocaleString(\"default\", { year: \"numeric\" }) + \"-\" +\n  start.toLocaleString(\"default\", { month: \"2-digit\" }) + \"-\" +\n  start.toLocaleString(\"default\", { day: \"2-digit\" }) + \"..\" +\n  end.toLocaleString(\"default\", { year: \"numeric\" }) + \"-\" +\n  end.toLocaleString(\"default\", { month: \"2-digit\" }) + \"-\" +\n  end.toLocaleString(\"default\", { day: \"2-digit\" })\n];\n"
+                },
+                {
+                  "id": "this-year",
+                  "label": "This year",
+                  "script": "const date = new Date();\nconst start = new Date(date.getFullYear(), 0, 1);\nconst end = new Date(date.getFullYear()+1, 0, 1);\n[\n  \"datePublished:\" +\n  start.toLocaleString(\"default\", { year: \"numeric\" }) + \"-\" +\n  start.toLocaleString(\"default\", { month: \"2-digit\" }) + \"-\" +\n  start.toLocaleString(\"default\", { day: \"2-digit\" }) + \"..\" +\n  end.toLocaleString(\"default\", { year: \"numeric\" }) + \"-\" +\n  end.toLocaleString(\"default\", { month: \"2-digit\" }) + \"-\" +\n  end.toLocaleString(\"default\", { day: \"2-digit\" })\n];\n"
+                },
+                {
+                  "id": "2022",
+                  "label": "2022",
+                  "terms": [
+                    "datePublished:2022-01-01..2023-01-01"
+                  ]
+                },
+                {
+                  "id": "2021",
+                  "label": "2021",
+                  "terms": [
+                    "datePublished:2021-01-01..2022-01-01"
+                  ]
+                },
+                {
+                  "id": "any",
+                  "label": "Any time"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "scanner": {
+    "documentationUrl": "https://www.trustification.io/blog/"
+  },
+  "features": {
+    "scanner": true,
+    "extendSection": true,
+    "dedicatedSearch": true
+  },
+  "consent": {}
+}
