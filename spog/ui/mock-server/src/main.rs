@@ -1,6 +1,5 @@
 use actix_cors::Cors;
 use actix_web::{get, web, App, HttpResponse, HttpServer, Responder};
-use std::fs;
 
 #[get("/hello")]
 async fn hello() -> impl Responder {
@@ -9,11 +8,11 @@ async fn hello() -> impl Responder {
 
 #[get("/api/v1//package/search")]
 async fn search_package() -> impl Responder {
-    HttpResponse::Ok().body(fs::read_to_string("search_sbom.json").unwrap())
+    HttpResponse::Ok().body(include_str!("../mock-data/search_sbom.json"))
 }
 #[get("/api/v1/config")]
 async fn get_config() -> impl Responder {
-    let content = fs::read_to_string("mock-data/config.json").unwrap();
+    let content = include_str!("../mock-data/config.json");
     HttpResponse::Ok().body(content)
 }
 

@@ -1,4 +1,3 @@
-// use dotenv;
 use spog_ui_backend::Endpoints;
 use spog_ui_common::error::components::Error;
 use std::rc::Rc;
@@ -21,14 +20,7 @@ pub fn backend(props: &BackendProperties) -> Html {
             // we cannot use reqwest here, as we might need to do a relative lookup, based on the
             // current web page. Which is something that Url (which is used by reqwest) doesn't
             // support. But gloo_net does.
-            let dev_mode = std::env!("PRODUCTION");
-            let url: &str;
-            if dev_mode == "DEV" {
-                url = "/endpoints/backend.dev.json";
-            } else {
-                url = "/endpoints/backend.json";
-            }
-            let response = gloo_net::http::Request::get(url)
+            let response = gloo_net::http::Request::get("/endpoints/backend.json")
                 .cache(RequestCache::NoStore)
                 .send()
                 .await
