@@ -480,6 +480,37 @@ properties:
                   "^[a-z0-9A-Z_\\-.]*[a-z0-9A-Z]$":
                     $ref: "#/definitions/VexinationWalkerSource"
 
+      report:
+        description: | 
+          Configuration options for report.
+        allOf:
+          - $ref: "#/definitions/Feature"
+          - $ref: "#/definitions/Image"
+          - $ref: "#/definitions/Infrastructure"
+          - $ref: "#/definitions/Ingress"
+          - type: object
+            properties:
+              replicaCount:
+                type: integer
+                minimum: 1
+#                image:
+#                  type: object
+#                  properties:
+#                    repository:
+#                      type: string
+#                    pullPolicy:
+#                      type: string
+#                      enum:
+#                        - Always
+#                        - IfNotPresent
+#                        - Never
+#                    tag:
+#                      type: string
+#                    port:
+#                      type: integer
+#                      minimum: 1
+#                      maximum: 65535
+
       integrationTests:
         description: |
           Integration tests which can be run as part of the Helm chart.

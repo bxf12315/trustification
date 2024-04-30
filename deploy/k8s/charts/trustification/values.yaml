@@ -74,6 +74,7 @@ v11y:
     failed: v11y-failed
     indexed: v11y-indexed
 
+
 modules:
 
   documentation:
@@ -211,5 +212,16 @@ modules:
     enabled: false
     image: {}
     rust: {}
+
+  report:
+    enabled: true
+    ingress: {}
+    infrastructure: { }
+    replicaCount: 1
+    image:
+      name: report
+      registry: registry.access.redhat.com/ubi9/nginx-122
+      pullPolicy: IfNotPresent
+      version: "1-59.1712857762"
 
 workarounds: {}

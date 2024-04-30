@@ -1,0 +1,4 @@
+{{- if and .Values.modules.report.enabled }}
+{{- $mod := dict "root" . "name" "report" "component" "report" "module" .Values.modules.report -}}
+{{ include "trustification.authenticator.defaultConfigMap" $mod }}
+{{- end }}

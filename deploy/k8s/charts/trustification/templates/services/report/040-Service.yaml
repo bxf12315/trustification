@@ -1,0 +1,16 @@
+{{/*apiVersion: v1*/}}
+{{/*kind: Service*/}}
+{{/*metadata:*/}}
+{{/*  name: {{ .Release.Name }}-report-server*/}}
+{{/*spec:*/}}
+{{/*  type: ClusterIP*/}}
+{{/*  ports:*/}}
+{{/*    - port: 80*/}}
+{{/*      targetPort: 8018*/}}
+{{/*  selector:*/}}
+{{/*    app: {{ .Release.Name }}-report*/}}
+
+{{- if .Values.modules.spogApi.enabled }}
+{{- $mod := dict "root" . "name" "report-server" "component" "report" "module" .Values.modules.report -}}
+{{- include "trustification.application.defaultService" $mod }}
+{{- end }}

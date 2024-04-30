@@ -1,0 +1,67 @@
+{{- if and .Values.modules.bombasticApi.enabled }}
+{{- $mod := dict "root" . "name" "report-server" "component" "report" "module" .Values.modules.report -}}
+
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ include "trustification.common.name" $mod }}
+  labels:
+    {{- include "trustification.common.labels" $mod | nindent 4 }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ $mod.module.stateStorageSize | default "1Mi" | quote }}
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "trustification.common.name" $mod }}
+  labels:
+    {{- include "trustification.common.labels" $mod | nindent 4 }}
+  annotations:
+    {{- include "trustification.application.annotations" $mod | nindent 4 }}
+
+spec:
+  replicas: {{ include "trustification.application.replicas" $mod }}
+  selector:
+    matchLabels:
+      {{- include "trustification.common.selectorLabels" $mod | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "trustification.common.selectorLabels" $mod | nindent 8 }}
+        {{- include "trustification.application.podLabels" $mod | nindent 8 }}
+      annotations:
+        configHash/auth: {{ include (print $.Template.BasePath "/services/report/020-ConfigMap-auth.yaml") . | sha256sum }}
+
+    spec:
+      {{- include "trustification.application.pod" $mod | nindent 6 }}
+
+      containers:
+        - name: report
+          image: registry.access.redhat.com/ubi8/nginx-122
+          imagePullPolicy: IfNotPresent
+{{/*          {{- include "trustification.application.container" $mod | nindent 10 }}*/}}
+{{/*          {{- include "trustification.application.infrastructure.probes" $mod | nindent 10 }}*/}}
+
+          command: [ "/usr/sbin/nginx" ]
+          args: [ "-g", "daemon off;" ]
+          ports:
+            {{- include "trustification.application.infrastructure.podPorts" $mod | nindent 12 }}
+            - containerPort: 8080
+              name: endpoint
+              protocol: TCP
+
+          volumeMounts:
+            - name: wwwdata
+              mountPath: /opt/app-root/src
+
+      volumes:
+        - name: wwwdata
+          persistentVolumeClaim:
+            claimName: {{ include "trustification.common.name" $mod }}
+
+{{ end }}

@@ -47,3 +47,13 @@ Arguments (dict):
 {{- define "trustification.host.vexinationApi" }}
 {{- include "trustification.ingress.host" (dict "root" .root "ingress" .root.Values.modules.vexinationApi.ingress "defaultHost" "vex") }}
 {{- end }}
+
+{{/*
+Default host part of the report service.
+
+Arguments (dict):
+  * root - .
+*/}}
+{{- define "trustification.host.report" }}
+{{- include "trustification.ingress.host" (dict "root" .root "ingress" .root.Values.modules.report.ingress "defaultHost" "report") }}
+{{- end }}
