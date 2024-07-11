@@ -817,8 +817,42 @@
               "$ref": "#/definitions/Ingress"
             },
             {
-              "enabled_auth": {
+              "enabledAuth": {
                 "type": "boolean"
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "reportUserConfig": {
+                  "required": [
+                    "isEncrypt"
+                  ],
+                  "isEncrypt": {
+                    "type": "boolean"
+                  },
+                  "encryptedHtpasswd": {
+                    "type": "string"
+                  },
+                  "users": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "required": [
+                        "name",
+                        "pwd"
+                      ],
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "pwd": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
               }
             }
           ]

@@ -63,7 +63,7 @@ spec:
         {{- if $mod.module.enabledAuth}}
         - name: auth-secret-volume
           secret:
-            secretName: report-auth-secret
+            secretName: {{ include "trustification.common.name" $mod }}-report-auth-secret
         {{- end}}
 
 {{ end }}
