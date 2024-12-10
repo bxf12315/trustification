@@ -9,6 +9,7 @@ use bytes::BytesMut;
 use futures::TryStreamExt;
 use tracing::{info_span, instrument, Instrument};
 use trustification_auth::client::TokenProvider;
+extern crate sanitize_filename;
 
 pub(crate) fn configure(payload_limit: usize) -> impl FnOnce(&mut ServiceConfig) {
     move |config: &mut ServiceConfig| {
@@ -44,6 +45,15 @@ pub async fn download_licenses(
     let sbom_name = sbom_licenses.sbom_name.clone();
     let exporter = license_exporter::LicenseExporter::new(sbom_licenses);
     let zip = exporter.generate()?;
+
+    // Sanitize sbom_name
+    let options = sanitize_filename::Options {
+        truncate: true,
+        windows: true,
+        replacement: "",
+    };
+    let sbom_name = sanitize_filename::sanitize_with_options(sbom_name, options);
+
     Ok(HttpResponse::Ok()
         .content_type("application/gzip")
         .append_header((

@@ -9,6 +9,7 @@ use http::StatusCode;
 use std::collections::HashSet;
 use tar::Builder;
 use trustification_common::error::ErrorInformation;
+extern crate sanitize_filename;
 
 pub struct LicenseExporter {
     sbom_license: SbomLicense,
@@ -134,15 +135,19 @@ impl LicenseExporter {
 
             let mut archive = Builder::new(encoder);
 
+            // Sanitize filename
+            let options = sanitize_filename::Options {
+                truncate: true,
+                windows: true,
+                replacement: "",
+            };
+            let sbom_name = sanitize_filename::sanitize_with_options(&self.sbom_license.sbom_name, options);
+
             let mut header = tar::Header::new_gnu();
             header.set_size(sbom_csv.len() as u64);
             header.set_mode(0o644);
             header.set_cksum();
-            archive.append_data(
-                &mut header,
-                format!("{}_sbom_licenses.csv", &self.sbom_license.sbom_name),
-                &*sbom_csv,
-            )?;
+            archive.append_data(&mut header, format!("{}_sbom_licenses.csv", &sbom_name), &*sbom_csv)?;
 
             let mut header = tar::Header::new_gnu();
             header.set_size(license_ref_csv.len() as u64);
@@ -150,7 +155,7 @@ impl LicenseExporter {
             header.set_cksum();
             archive.append_data(
                 &mut header,
-                format!("{}_license_ref.csv", &self.sbom_license.sbom_name),
+                format!("{}_license_ref.csv", &sbom_name),
                 &*license_ref_csv,
             )?;
 
