@@ -1,6 +1,7 @@
 use crate::app_state::AppState;
 use crate::error::Error;
 use crate::license::{license_exporter, license_scanner};
+use crate::utils::get_sanitize_filename;
 use actix_web::web::{Data, PayloadConfig, ServiceConfig};
 use actix_web::{web, HttpResponse};
 use actix_web_httpauth::extractors::bearer::BearerAuth;
@@ -9,6 +10,7 @@ use bytes::BytesMut;
 use futures::TryStreamExt;
 use tracing::{info_span, instrument, Instrument};
 use trustification_auth::client::TokenProvider;
+
 extern crate sanitize_filename;
 
 pub(crate) fn configure(payload_limit: usize) -> impl FnOnce(&mut ServiceConfig) {
@@ -46,19 +48,14 @@ pub async fn download_licenses(
     let exporter = license_exporter::LicenseExporter::new(sbom_licenses);
     let zip = exporter.generate()?;
 
-    // Sanitize sbom_name
-    let options = sanitize_filename::Options {
-        truncate: true,
-        windows: true,
-        replacement: "",
-    };
-    let sbom_name = sanitize_filename::sanitize_with_options(sbom_name, options);
-
     Ok(HttpResponse::Ok()
         .content_type("application/gzip")
         .append_header((
             "Content-Disposition",
-            format!("attachment; filename=\"{}_licenses.tar.gz\"", sbom_name),
+            format!(
+                "attachment; filename=\"{}_licenses.tar.gz\"",
+                get_sanitize_filename(sbom_name)
+            ),
         ))
         .body(zip))
 }
